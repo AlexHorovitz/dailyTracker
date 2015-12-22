@@ -1,0 +1,33 @@
+<head>
+  <title>JumpstartMD Daily Tracker</title>
+</head>
+
+<body>
+  <h1>Welcome to Daily Tracker</h1>
+  {{> nav}}
+  {{> today}}
+</body>
+<template name="nav">
+  <h2>Today | History</h2> <br>
+</template> 
+
+<template name="today">
+  {{#each historyItems}}
+    {{> todayItems}}
+  {{/each}}
+</template>
+  
+<template name="todayItems">
+  Debug ID: {{_id}}<br/>
+  Date: {{formatDate date}}<br/>
+  Protein:   {{#each proteinCount}}@{{/each}} | <button class="addButton" id="proteinCount" name="proteinGrams">&plus;</button> | <button class="subtractButton" id="proteinCount">&minus;</button><br/>
+  Carbohydrates: {{#each carbohydrateCount}}@{{/each}} | <button class="addButton" id="carbohydrateCount" name="carbohydrateGrams">&plus;</button> | <button class="subtractButton" id="carbohydrateCount">&minus;</button><br/>
+  Fats: {{#each fatCount}}@{{/each}} | <button class="addButton" id="fatCount" name="fatGrams">&plus;</button> | <button class="subtractButton" id="fatCount">&minus;</button><br/>  Beverages: <br/>
+  Medication Taken: <input type="checkbox" checked="{{medicationTaken}}" id="medicationTaken"><br/>
+  Multivitamin Taken: <input type="checkbox" checked="{{vitaminsTaken}}" id="vitaminsTaken" ><br/>
+  Exercise Minutes: <br/>
+</template>  
+
+
+    
+
