@@ -7,6 +7,10 @@ if (Meteor.isClient) {
     return moment(date).format('dddd MMM DD, YYYY');
   });
 
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+
   Template.nav.helpers({
 
   });
@@ -17,11 +21,30 @@ if (Meteor.isClient) {
 
   Template.today.helpers({
     historyItems: function() {
-      var start = new Date();
-      start.setHours(0,0,0,0);
+      var today = new Date();
+      today.setHours(0,0,0,0);
+      
+      if (Meteor.userId() && HistoryCollection.find({date: {$gte: today}}).count() === 0) {
+        var historyItems = [{
+          date: today,
+          proteinCount:  [],
+          carbohydrateCount: [],
+          beverageCount12oz: [],
+          medicationTaken: false,
+          vitaminsTaken: false,
+          exerciseTimeInMinutes: 0,
+          owner: Meteor.userId(),
+          username: Meteor.user().username
+      }];
+  
+      while ( historyItems.length > 0){
+        HistoryCollection.insert(historyItems.pop());
+      }
+    }
+    
+    return HistoryCollection.find({date: {$gte: today}});
 
-      return HistoryCollection.find({date: {$gte: start}});
-    },
+    }
     
   });
 
@@ -66,7 +89,7 @@ if (Meteor.isClient) {
       var query = { _id: ui.data._id}; 
       HistoryCollection.update(query, changes);
 
-      console.log("clicked addButton for: "+fieldToUpdate); 
+      //console.log("clicked addButton for: "+fieldToUpdate); 
 
 
     },
@@ -84,6 +107,7 @@ if (Meteor.isClient) {
 
   });
 }
+
 
 if (Meteor.isServer) {
   Meteor.startup(function () {

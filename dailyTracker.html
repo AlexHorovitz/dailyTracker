@@ -3,10 +3,16 @@
 </head>
 
 <body>
+
+{{> loginButtons}}
+
   <h1>Welcome to Daily Tracker</h1>
+{{#if currentUser}}
   {{> nav}}
   {{> today}}
+{{/if}}
 </body>
+
 <template name="nav">
   <h2>Today | History</h2> <br>
 </template> 
@@ -18,8 +24,10 @@
 </template>
   
 <template name="todayItems">
+<span class="text"><strong>{{currentUser.username}}</strong> - {{formatDate date}}</span>
+  <hr/>
   Debug ID: {{_id}}<br/>
-  Date: {{formatDate date}}<br/>
+  <br/>
   Protein:   {{#each proteinCount}}@{{/each}} | <button class="addButton" id="proteinCount" name="proteinGrams">&plus;</button> | <button class="subtractButton" id="proteinCount">&minus;</button><br/>
   Carbohydrates: {{#each carbohydrateCount}}@{{/each}} | <button class="addButton" id="carbohydrateCount" name="carbohydrateGrams">&plus;</button> | <button class="subtractButton" id="carbohydrateCount">&minus;</button><br/>
   Fats: {{#each fatCount}}@{{/each}} | <button class="addButton" id="fatCount" name="fatGrams">&plus;</button> | <button class="subtractButton" id="fatCount">&minus;</button><br/>  Beverages: <br/>
